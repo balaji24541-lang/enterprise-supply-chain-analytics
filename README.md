@@ -30,3 +30,30 @@ enterprise-supply-chain/
 │   └── executive_action_ledger.png      # Dashboard Screenshot 2
 │
 └── requirements.txt                     # System dependency tracking
+## 🧠 Machine Learning Engine & Feature Engineering
+To eliminate data leakage, historical shipping durations were isolated. The **Random Forest Classifier** was trained using key engineered features:
+* **Scheduled_Transit_Window:** Standardized target delivery timelines.
+* **Order_Density:** Feature interaction crossing `Order Item Quantity` and total `Sales` to establish wholesale order weights.
+
+---
+
+## 📈 Dual-Perspective Dashboard Architecture
+
+### 1. Logistics Performance Heatmap (Operations View)
+Designed for shipping supervisors to instantly isolate transit friction points by region and carrier type. Darker red cells indicate a high statistical probability of delivery failures.
+
+![Logistics Performance Heatmap](dashboard/logistics_performance.png)
+
+### 2. Financial Executive Action Ledger (Strategic View)
+Built for C-suite risk mitigation. This interface highlights the total capital exposure (**$20.14M**) and dynamically filters down to display only the high-value delivery rows with an active **75%+ delay risk**.
+
+![Financial Executive Action Ledger](dashboard/executive_action_ledger.png)
+
+---
+
+## 🚀 How to Run the Pipeline Locally
+
+git clone https://github.com/balaji24541-lang/enterprise-supply-chain-analytics.git
+cd enterprise-supply-chain-analytics
+pip install -r requirements.txt
+python src/pipeline.py
