@@ -62,7 +62,7 @@ def run_enterprise_pipeline():
         df['Net_Profit'] = df['Sales'] * df['Order Item Profit Ratio']
 
         df.to_csv(output_data_path, index=False)
-        print(f"🚀 Pipeline Complete! Output written to: {output_data_path}")
+        print(f" Pipeline Complete! Output written to: {output_data_path}")
 
     except Exception as e:
         print(f" CRASH DETECTED! Error details: {str(e)}")
