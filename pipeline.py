@@ -5,21 +5,21 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, roc_auc_score
 
-print("🏁 Script has officially started initialized...")
+print(" Script has officially started initialized...")
 
 def run_enterprise_pipeline():
     raw_data_path = "data/DataCoSupplyChainDataset.csv"
     output_data_path = "data/supply_chain_predictions.csv"
     
-    print(f"🔍 Checking workspace directory...")
+    print(f" Checking workspace directory...")
     if not os.path.exists(raw_data_path):
-        print(f"❌ Error: Looked for '{raw_data_path}' but it wasn't there.")
+        print(f" Error: Looked for '{raw_data_path}' but it wasn't there.")
         return
 
     try:
-        print("📦 [1/4] Loading DataCo Supply Chain Records into memory...")
+        print(" [1/4] Loading DataCo Supply Chain Records into memory...")
         df = pd.read_csv(raw_data_path, encoding="latin1")
-        print(f"✅ Successfully loaded data! Shape: {df.shape}")
+        print(f" Successfully loaded data! Shape: {df.shape}")
 
         # HOTFIX: Changed 'Customer Region' to 'Order Region' to match DataCo Schema
         target_columns = [
@@ -29,7 +29,7 @@ def run_enterprise_pipeline():
         ]
         df = df[target_columns].dropna()
 
-        print("⚙️ [2/4] Engineering Advanced Operational & Risk Features...")
+        print(" [2/4] Engineering Advanced Operational & Risk Features...")
         df['Scheduled_Transit_Window'] = df['Days for shipment (scheduled)']
         df['Order_Density'] = df['Order Item Quantity'] * df['Sales']
         df['Is_Delayed'] = np.where(df['Delivery Status'] == 'Late delivery', 1, 0)
@@ -38,7 +38,7 @@ def run_enterprise_pipeline():
         categorical_features = ['Order Region', 'Shipping Mode', 'Category Name']
         df_encoded = pd.get_dummies(df, columns=categorical_features, drop_first=True)
 
-        print("🧠 [3/4] Initializing ML Engine (Random Forest)...")
+        print(" [3/4] Initializing ML Engine (Random Forest)...")
         features_to_drop = ['Days for shipping (real)', 'Delivery Status', 'Is_Delayed']
         X = df_encoded.drop(columns=features_to_drop)
         y = df_encoded['Is_Delayed']
@@ -56,7 +56,7 @@ def run_enterprise_pipeline():
         print(f"Validated Model ROC-AUC Score: {roc_auc_score(y_test, y_prob):.4f}")
         print("="*67 + "\n")
 
-        print("📊 [4/4] Mapping Predictive Output to Financial Risk Framework...")
+        print(" [4/4] Mapping Predictive Output to Financial Risk Framework...")
         df['Delay_Probability'] = model.predict_proba(X)[:, 1]
         df['Revenue_At_Risk'] = df['Delay_Probability'] * df['Sales']
         df['Net_Profit'] = df['Sales'] * df['Order Item Profit Ratio']
