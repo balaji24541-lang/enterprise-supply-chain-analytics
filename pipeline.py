@@ -65,6 +65,6 @@ def run_enterprise_pipeline():
         print(f"🚀 Pipeline Complete! Output written to: {output_data_path}")
 
     except Exception as e:
-        print(f"💥 CRASH DETECTED! Error details: {str(e)}")
+        print(f" CRASH DETECTED! Error details: {str(e)}")
 
 run_enterprise_pipeline()
